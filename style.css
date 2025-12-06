@@ -1,0 +1,539 @@
+/* ========== Reset og variabler ========== */
+/* Global reset for boksmodell – gjør at padding/border ikke øker totalbredde/høyde */
+* {
+    box-sizing: border-box;
+}
+
+/* Globale CSS-variabler for farger, layout og dimensjoner */
+:root {
+    --bg1: #0f172a;
+    --bg2: #1e293b;
+    --primary: #6d28d9;
+    --accent: #22d3ee;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --user: #2563eb;
+    /* dimensjoner */
+    --sidebar-w: 230px;
+    --content-max: 900px;
+    --gutter: 1rem;
+}
+
+/* Sørger for at body kan bruke 100% høyde til layout */
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text);
+    min-height: 100svh;
+    /* Bakgrunn med flere gradienter for “glød” og dybde */
+    background: radial-gradient(1200px 800px at 10% -10%, rgba(167, 139, 250, 0.30), transparent 80%), radial-gradient(900px 600px at 110% 10%, rgba(109, 40, 217, 0.25), transparent 55%), radial-gradient(1000px 700px at 50% 120%, rgba(34, 211, 238, 0.12), transparent 70%), linear-gradient(180deg, #0f1b3d 0%, #1b284d 40%, #10192d 100%);
+    background-repeat: no-repeat;
+    background-size: cover, cover, cover, cover, 100% 200px;
+    background-position: center top, right top, center, center, bottom;
+    padding: 2rem 1rem;
+}
+
+/* ========== Sidebar ========== */
+/* Fast venstrestilt sidebar som alltid er synlig */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    background: linear-gradient(180deg, rgba(0,0,0,.92), rgba(15,15,15,.95));
+    color: #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1rem;
+    box-shadow: 3px 0 12px rgba(0,0,0,.4);
+    z-index: 20; /* over innholdet */
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin: 0 0 1.5rem;
+}
+
+.sidebar h3 a {
+    text-decoration: none;
+    color: #b497ff;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: .3px;
+    transition: color .2s ease, text-shadow .3s ease;
+}
+
+.sidebar h3 a:hover {
+    color: #d5bfff;
+    text-shadow: 0 0 10px rgba(180,151,255,.6);
+}
+
+.sidebar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+.sidebar nav a, .sidebar nav button {
+    text-decoration: none;
+    color: #e0e7ff;
+    font-weight: 500;
+    padding: .55rem .8rem;
+    border-radius: 8px;
+    background: transparent;
+    border: 0;
+    display: block;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.sidebar nav a:hover, .sidebar nav button:hover {
+    background: rgba(167,139,250,.15);
+    color: #c4b5fd;
+}
+
+/* ========== Hovedinnhold (eksempler + chat) ========== */
+/* Wrapper for hele hovedinnholdet (eksempler + chat) */
+.chat-container {
+    /* legg innholdet til h�yre for sidebaren */
+    /* Skyver chat-container til høyre slik at den ikke overlapper sidebaren */
+    margin-left: calc(var(--sidebar-w) + 190px);
+    margin-right: auto;
+    width: min(calc(100% - var(--sidebar-w) - 60px), var(--content-max));
+    background: rgba(20,28,50,.75);
+    border-radius: 18px;
+    padding: 1.1rem;
+    border: 1px solid rgba(255,255,255,.06);
+    box-shadow: 0 10px 28px rgba(0,0,0,.45);
+    backdrop-filter: blur(8px);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 1rem;
+}
+
+/* Generell <h2>-stil med gradienttekst brukt i overskrifter */
+h2 {
+    margin: 0;
+    text-align: center;
+    font-weight: 800;
+    background: linear-gradient(90deg,#a78bfa,#60a5fa 40%,#22d3ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* ========== Eksempel-boks over chat ========== */
+/* Grid for eksempelinnhold (spørsmål/forslag) */
+.examples-grid {
+    display: grid;
+    gap: .9rem;
+}
+
+/* Boks som holder eksempler og beskrivelse */
+.example-section {
+    background: linear-gradient(135deg,#0b1220,#121b2f);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 14px;
+    padding: .9rem;
+}
+
+/* Overskrift over eksempelspørsmål */
+.example-heading {
+    margin: .25rem 0 .6rem;
+    font-weight: 800;
+    color: #c7d2fe;
+    font-size: 1.05rem;
+}
+
+/* Wrapper for kort/knapper med eksempler */
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+    align-items: center;
+}
+
+/* Individuelle kort (om du bruker dem) */
+.card {
+    background: rgba(12,18,32,.8);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 12px;
+    padding: .45rem;
+}
+
+.card .q, .card .a {
+    margin: .1rem 0;
+}
+
+/* Rad for eventuelle knapper/handlinger under kort */
+.actions {
+    margin-top: .25rem;
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+/* Knapp for eksempelspørsmål over chatten */
+.example-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .55rem .75rem;
+    border: none;
+    border-radius: .6rem;
+    cursor: pointer;
+    color: #fff;
+    text-align: center;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+}
+
+.example-btn:hover {
+    filter: brightness(1.12);
+}
+
+/* ========== Chat-vindu ========== */
+/* Selve chat-området der meldinger vises */
+#chat {
+    /* litt lavere h�yde og mer kompakt */
+    /* Høyde begrenset for å passe inn i layouten og unngå at alt blir for høyt */
+    height: min(45vh, 420px);
+    background: linear-gradient(180deg, rgba(11,18,32,.92), rgba(11,18,32,.78));
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    scroll-behavior: smooth;
+    box-shadow: inset 0 0 10px rgba(0,0,0,.28);
+}
+
+/* Basisstil for én melding (bruker eller bot) */
+.msg {
+    max-width: 82%;
+    padding: .6rem .85rem;
+    border-radius: 12px;
+    line-height: 1.45;
+    word-wrap: break-word;
+    animation: fadeIn .18s ease-out;
+    border: 1px solid rgba(255,255,255,.06);
+}
+
+/* Meldinger fra bruker plasseres på høyre side og har blå bakgrunn */
+.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color:#fff;
+}
+
+/* Meldinger fra bot plasseres på venstre side */
+.bot {
+    align-self: flex-start;
+    background: linear-gradient(135deg,#0b1220,#1e293b);
+}
+
+/* Avsendernavn inne i meldingen */
+.msg strong {
+    margin-right: .15rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Input-omr�de */
+/* Wrapper for tekstfelt + send-knapp */
+#input-area {
+    display: flex;
+    gap: .6rem;
+}
+
+/* Tekstfelt for melding til TravelBot */
+#message {
+    flex: 1;
+    padding: .85rem 1rem;
+    font-size: 1rem;
+    background: #0f172a;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+#message::placeholder {
+    color: var(--muted);
+}
+
+#message:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(34,211,238,.16);
+}
+
+/* Send-knappen ved siden av tekstfeltet */
+#send-btn {
+    padding: .85rem 1.05rem;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    box-shadow: 0 10px 24px rgba(37,99,235,.3);
+    transition: transform .06s ease, filter .15s ease, box-shadow .15s ease;
+}
+
+#send-btn:hover {
+    filter: brightness(1.15);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(37,99,235,.45);
+}
+
+#send-btn:active {
+    transform: translateY(0);
+    filter: brightness(.95);
+}
+
+#send-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* Typing-indikator */
+/* Wrapper for “TravelBot skriver...” */
+.typing {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    color: var(--muted);
+}
+
+/* Container for de tre animerte prikkene */
+.dots {
+    display: inline-flex;
+    gap: .25rem;
+}
+
+/* Individuell prikk i typing-animasjonen */
+.dot {
+    width: .35rem;
+    height: .35rem;
+    border-radius: 50%;
+    background: #a5b4fc;
+    opacity: .6;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+/* Hover-stil for knapper i settings-menyen (ligger her pga. plassering i original) */
+.settings-menu button:hover{ background: rgba(99,102,241,.15); color:#a5b4fc; }
+
+.dot:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: .3s;
+}
+
+/* ========== Settings-knapp og meny ========== */
+/* Flytende knapp oppe til høyre med tannhjul-ikon */
+.settings-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 30;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .08s ease, filter .15s ease, box-shadow .15s ease;
+}
+
+.settings-btn .icon {
+    width: 28px;
+    height: 28px;
+    filter: invert(1);
+    transition: transform .2s ease, filter .15s ease;
+}
+
+.settings-btn:hover .icon {
+    transform: rotate(45deg);
+    filter: invert(1);
+}
+
+.settings-btn:active .icon {
+    transform: rotate(0deg) scale(.95);
+    filter: brightness(.9);
+}
+
+/* Selve dropdown-menyen for innstillinger */
+.settings-menu {
+    position: fixed;
+    top: 60px;
+    right: 16px;
+    background: rgba(17,24,39,.95);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    backdrop-filter: blur(8px);
+    min-width: 160px;
+    padding: .4rem 0;
+    z-index: 25;
+    transition: opacity .15s ease, transform .15s ease;
+}
+
+.settings-menu.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+}
+
+.settings-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.settings-menu li {
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.settings-menu li:last-child {
+    border-bottom: none;
+}
+
+.settings-menu button {
+    background: none;
+    border: none;
+    color: #e5e7eb;
+    font-size: .95rem;
+    padding: .6rem 1rem;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+}
+
+.settings-menu button:hover {
+    background: rgba(99,102,241,.15);
+    color: #a5b4fc;
+}
+
+/* ========== Animasjoner ========== */
+/* Fade-in for meldinger i chatten */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Liten “bounce” for typing-prikker */
+@keyframes bounce {
+    0%,80%,100% {
+        transform: translateY(0);
+        opacity: .4;
+    }
+
+    40% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* ========== Responsivitet ========== */
+@media (max-width: 980px) {
+    /* Sidebar blir toppmeny på smale skjermer */
+    .sidebar {
+        position: sticky;
+        width: 100%;
+        height: auto;
+        top: 0;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: .8rem 1rem;
+        box-shadow: none;
+        background: rgba(45,0,85,.9);
+        z-index: 20;
+    }
+
+    .sidebar h3 {
+        margin: 0;
+    }
+
+    .sidebar nav ul {
+        flex-direction: row;
+        gap: .6rem;
+    }
+}
+
+@media (max-width: 520px) {
+    body {
+        padding: 1.25rem .75rem;
+    }
+
+    .msg {
+        max-width: 92%;
+    }
+
+    /* Øker høyden på chat på veldig små skjermer for å utnytte plassen bedre */
+    #chat {
+        height: 58vh;
+    }
+}
+
+/* -------------------------------------------------------- */
+/* PDF-knapp oppe til høyre – ved siden av cogwheel         */
+/* -------------------------------------------------------- */
+/* Styling for ekstra knapp i topbaren (PDF-nedlasting) */
+.topbar-btn {
+    position: fixed;
+    top: 16px;
+    right: 60px; /* plasserer seg 60px til venstre for tannhjulet */
+    z-index: 31;
+    padding: .45rem .9rem;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
+    color: #f8fafc;
+    font-weight: 600;
+    font-size: .85rem;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: all .25s ease;
+    white-space: nowrap;
+    box-shadow:
+            0 0 10px rgba(255,255,255,.2),
+            4px 4px 12px rgba(0,0,0,.4);
+}
+
+.topbar-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    box-shadow:
+            0 0 14px rgba(255,255,255,.4),
+            4px 4px 16px rgba(0,0,0,.55);
+}
+
+.topbar-btn:active {
+    transform: translateY(0);
+}

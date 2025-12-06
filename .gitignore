@@ -1,0 +1,23 @@
+.vs
+
+# Miljøfiler – inneholder hemmeligheter (API-nøkler)
+.env
+.env.*
+
+# Composer-avhengigheter
+/vendor/
+/composer.lock
+
+# Systemfiler (Mac og Windows)
+.DS_Store
+Thumbs.db
+
+# Editor-filer (VS Code, PhpStorm)
+.vscode/
+/.idea/
+
+# Midlertidige eller cache-filer
+*.log
+*.tmp
+*.bak
+*.swp
